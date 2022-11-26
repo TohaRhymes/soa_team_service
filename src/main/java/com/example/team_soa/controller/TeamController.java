@@ -61,18 +61,18 @@ public class TeamController {
 
     @PostMapping(path = "",
             produces = MediaType.APPLICATION_XML_VALUE,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+            consumes = MediaType.APPLICATION_XML_VALUE)
     @ApiOperation(value = "Produce new team.",
             produces = MediaType.APPLICATION_XML_VALUE,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+            consumes = MediaType.APPLICATION_XML_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully added"),
             @ApiResponse(code = 400, message = "Error formatting"),
             @ApiResponse(code=500, message = "Internal server Error")
     })
-    public ResponseEntity addTeam(@ApiParam(name = "name", example = "Formula stars", required = true) @RequestParam(name = "name", required = true) String name) {
+    public ResponseEntity addTeam(@ApiParam(name = "team", required = true) @RequestBody(required = true) Team team) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(teamService.saveTeam(new Team().setName(name)));
+            return ResponseEntity.status(HttpStatus.OK).body(teamService.saveTeam(team));
         } catch (TransactionSystemException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (ExistanceException e) {
@@ -84,19 +84,19 @@ public class TeamController {
 
     @PutMapping(path = "/{team-id}",
             produces = MediaType.APPLICATION_XML_VALUE,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+            consumes = MediaType.APPLICATION_XML_VALUE)
     @ApiOperation(value = "Change car.",
             produces = MediaType.APPLICATION_XML_VALUE,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+            consumes = MediaType.APPLICATION_XML_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully updated"),
             @ApiResponse(code = 400, message = "Error formatting or ID not found"),
             @ApiResponse(code=500, message = "Internal server Error")
     })
     public HttpStatus updateTeam(@ApiParam("team-id") @PathVariable(name = "team-id") Long id,
-                                 @ApiParam("name") @RequestParam(name = "name", required = false) String name) throws ModelException {
+                                 @ApiParam("team") @RequestBody() Team team) throws ModelException {
         try {
-            if (teamService.updateTeamById(id, name)) {
+            if (teamService.updateTeamById(id, team.getName())) {
                 return HttpStatus.OK;
             } else {
                 // Server error: something happened        500

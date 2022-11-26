@@ -31,7 +31,7 @@ public class HumanToTeam implements Serializable {
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     @NotNull
     @JoinColumn(name = "team_id")
-    @JsonManagedReference
+    @JsonManagedReference(value="team")
     @Getter
     private Team team;
 
@@ -40,7 +40,7 @@ public class HumanToTeam implements Serializable {
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     @NotNull
     @JoinColumn(name = "human_id", unique = true)
-    @JsonManagedReference
+    @JsonManagedReference(value="human")
     @Getter
     private Human human;
 
