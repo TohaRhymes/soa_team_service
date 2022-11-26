@@ -23,12 +23,12 @@ public interface HumanToTeamService {
     public boolean deleteHumanToTeamById(Long id);
 
     public boolean deleteHumanToTeamByTeamIdAndHumanId(Long HumanId, Long TeamId) throws ExistanceException;
+
     public boolean makeTeamDepressiveByTeamId(Long id) throws BadRequestException;
 
     public ArrayList<Human> fetchHumansByTeamId(Long id);
+
     public Team fetchTeamByHumanId(Long id);
-
-
 
 
 //

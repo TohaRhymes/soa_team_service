@@ -1,6 +1,7 @@
 package com.example.team_soa.repository;
 
 import com.example.team_soa.model.Team;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +18,7 @@ public interface TeamRepository extends CrudRepository<Team, Long>, JpaRepositor
 
 
     @Query("SELECT team.id, team.name " +
-            "FROM Team team "+
+            "FROM Team team " +
             "where (LOWER(team.name) like LOWER(:name))")
-    Stream<Object[]> findTeamFilter(Pageable pageable, String name);
+    Page<Object[]> findTeamFilter(Pageable pageable, String name);
 }

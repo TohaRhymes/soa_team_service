@@ -95,7 +95,7 @@ public class Human implements Serializable {
     private Boolean isDriver;
 
 
-    @OneToMany(mappedBy = "human",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "human", cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private Set<HumanToTeam> humanToTeams;

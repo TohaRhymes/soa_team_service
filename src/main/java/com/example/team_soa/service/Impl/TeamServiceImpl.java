@@ -2,19 +2,20 @@ package com.example.team_soa.service.Impl;
 
 import com.example.team_soa.exception.ExistanceException;
 import com.example.team_soa.exception.ModelException;
-import com.example.team_soa.model.Human;
 import com.example.team_soa.model.Team;
 import com.example.team_soa.repository.TeamRepository;
 import com.example.team_soa.service.TeamService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,14 +40,14 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional
-    public ArrayList<Team> fetchAllTeams(Integer page,
-                                         Integer size,
-                                         String sort,
-                                         String order,
-                                         String name) {
+    public Page fetchAllTeams(Integer page,
+                              Integer size,
+                              String sort,
+                              String order,
+                              String name) {
         name = checkNull(name, "");
         Pageable pageable = getPageable(page, size, sort, order);
-        List<Object[]> start = teamRepository.findTeamFilter(pageable, "%" + name + "%").toList();
+        Page<Object[]> start = teamRepository.findTeamFilter(pageable, "%" + name + "%");
         List<Team> finish = new ArrayList<>();
         for (Object[] el : start) {
             Team new_el = new Team();
@@ -54,7 +55,8 @@ public class TeamServiceImpl implements TeamService {
                     .setName((String) el[1]);
             finish.add(new_el);
         }
-        return new ArrayList<>(finish);
+
+        return new PageImpl<>(finish, pageable, start.getTotalElements());
     }
 
     @Override

@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface HumanToTeamRepository extends CrudRepository<HumanToTeam, Long>, JpaRepository<HumanToTeam, Long> {
     List<HumanToTeam> findHumanToTeamByTeamId(Long id);
+
     List<HumanToTeam> findHumanToTeamByHumanId(Long id);
+
     List<HumanToTeam> findHumanToTeamByHumanIdAndTeamId(Long humanId, Long teamId);
 }

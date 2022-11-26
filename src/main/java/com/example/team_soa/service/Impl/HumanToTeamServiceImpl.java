@@ -151,7 +151,7 @@ public class HumanToTeamServiceImpl implements HumanToTeamService {
     @Override
     public Team fetchTeamByHumanId(Long id) {
         ArrayList<HumanToTeam> humansToTeam = new ArrayList<>(humanToTeamRepository.findHumanToTeamByHumanId(id));
-        if (humansToTeam.size()>0){
+        if (humansToTeam.size() > 0) {
             return humansToTeam.get(0).getTeam();
         }
         return null;

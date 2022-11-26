@@ -10,6 +10,7 @@ import com.example.team_soa.service.CollectionService;
 import com.example.team_soa.service.HumanToTeamService;
 import com.example.team_soa.service.TeamService;
 import io.swagger.annotations.*;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -45,11 +46,11 @@ public class TeamController {
             @ApiResponse(code = 200, message = "Successfully fetched"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
-    public ResponseEntity<List<Team>> fetchAllTeams(@ApiParam(name = "page", required = false, example = "0") @RequestParam(value = "page", required = false) Integer page,
-                                                    @ApiParam(name = "size", required = false, example = "5") @RequestParam(value = "size", required = false) Integer size,
-                                                    @ApiParam(name = "sort", required = false, example = "name") @RequestParam(value = "sort", required = false) String sort,
-                                                    @ApiParam(name = "order", required = false, example = "asc", allowableValues = "asc, desc") @RequestParam(value = "order", required = false) String order,
-                                                    @ApiParam(name = "name", value = "part of the name", required = false, example = "Fer") @RequestParam(value = "name", required = false) String name) {
+    public ResponseEntity<Page> fetchAllTeams(@ApiParam(name = "page", required = false, example = "0") @RequestParam(value = "page", required = false) Integer page,
+                                              @ApiParam(name = "size", required = false, example = "5") @RequestParam(value = "size", required = false) Integer size,
+                                              @ApiParam(name = "sort", required = false, example = "name") @RequestParam(value = "sort", required = false) String sort,
+                                              @ApiParam(name = "order", required = false, example = "asc", allowableValues = "asc, desc") @RequestParam(value = "order", required = false) String order,
+                                              @ApiParam(name = "name", value = "part of the name", required = false, example = "Fer") @RequestParam(value = "name", required = false) String name) {
         return new ResponseEntity<>(teamService.fetchAllTeams(page,
                 size,
                 sort,

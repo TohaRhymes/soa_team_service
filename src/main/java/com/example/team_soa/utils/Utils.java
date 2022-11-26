@@ -36,8 +36,8 @@ public class Utils {
         return pageable;
     }
 
-    public static <T> T checkNull (T curValue, T value){
-        if(curValue==null){
+    public static <T> T checkNull(T curValue, T value) {
+        if (curValue == null) {
             return value;
         }
         return curValue;

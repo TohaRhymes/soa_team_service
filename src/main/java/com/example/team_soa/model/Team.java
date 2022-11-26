@@ -43,7 +43,7 @@ public class Team implements Serializable {
     private String name;
 
 
-    @OneToMany(mappedBy = "team",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private Set<HumanToTeam> humanToTeams;

@@ -52,10 +52,12 @@ public class HumanToTeam implements Serializable {
         this.id = id;
         return this;
     }
+
     public HumanToTeam setHuman(Human human) {
         this.human = human;
         return this;
     }
+
     public HumanToTeam setTeam(Team team) {
         this.team = team;
         return this;
