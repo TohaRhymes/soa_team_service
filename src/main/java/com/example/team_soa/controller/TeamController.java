@@ -10,6 +10,7 @@ import com.example.team_soa.service.CollectionService;
 import com.example.team_soa.service.HumanToTeamService;
 import com.example.team_soa.service.TeamService;
 import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +25,7 @@ import java.util.List;
 @RequestMapping("/v1/teams")
 @Api(value = "/v1/teams",
         tags = "Teams")
+@Slf4j
 public class TeamController {
 
     private final TeamService teamService;
@@ -50,11 +52,13 @@ public class TeamController {
                                               @ApiParam(name = "size", required = false, example = "5") @RequestParam(value = "size", required = false) Integer size,
                                               @ApiParam(name = "sort", required = false, example = "name") @RequestParam(value = "sort", required = false) String sort,
                                               @ApiParam(name = "order", required = false, example = "asc", allowableValues = "asc, desc") @RequestParam(value = "order", required = false) String order,
+                                              @ApiParam(name = "id", required = false) @RequestParam(name = "id", required = false) Long id,
                                               @ApiParam(name = "name", value = "part of the name", required = false, example = "Fer") @RequestParam(value = "name", required = false) String name) {
         return new ResponseEntity<>(teamService.fetchAllTeams(page,
                 size,
                 sort,
                 order,
+                id,
                 name), HttpStatus.OK);
     }
 
@@ -139,13 +143,11 @@ public class TeamController {
         if (teamService.deleteTeamById(id)) {
             return HttpStatus.OK;
         }
-        // ID not found (400)
         return HttpStatus.NOT_FOUND;
-        // Server error: something happened        500
     }
 
 
-    @PutMapping(path = "/{team-id}/human/{human-id}",
+    @PutMapping(path = "/{team-id}/humans/{human-id}",
             produces = MediaType.APPLICATION_XML_VALUE)
     @ApiOperation(value = "Update team by human (add human to team)",
             produces = MediaType.APPLICATION_XML_VALUE)
@@ -158,6 +160,7 @@ public class TeamController {
     public ResponseEntity updateTeamByHuman(@ApiParam(name = "team-id", required = true) @PathVariable(name = "team-id", required = true) Long teamId,
                                             @ApiParam(name = "human-id", required = true) @PathVariable(name = "human-id", required = true) Long humanId) {
         try {
+            log.info("{} {}", teamId, humanId);
             HumanToTeam humanToTeam = humanToTeamService.saveHumanToTeam(humanId, teamId);
             return ResponseEntity.status(HttpStatus.OK).body(humanToTeam);
         } catch (ExistanceException e) {
@@ -167,7 +170,7 @@ public class TeamController {
         }
     }
 
-    @DeleteMapping(path = "/{team-id}/human/{human-id}",
+    @DeleteMapping(path = "/{team-id}/humans/{human-id}",
             produces = MediaType.APPLICATION_XML_VALUE)
     @ApiOperation(value = "Delete human from team",
             produces = MediaType.APPLICATION_XML_VALUE)
@@ -211,8 +214,11 @@ public class TeamController {
             produces = MediaType.APPLICATION_XML_VALUE)
     @ApiOperation(value = "Return list of humans by team.",
             produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<List<Human>> fetchHumansByTeamId(@ApiParam(name = "team-id", required = true) @PathVariable(name = "team-id", required = true) Long id) {
-        return new ResponseEntity<>(humanToTeamService.fetchHumansByTeamId(id), HttpStatus.OK);
+    public ResponseEntity<Page> fetchHumansByTeamId(@ApiParam(name = "team-id", required = true) @PathVariable(name = "team-id", required = true) Long id) {
+//        System.out.println("lolokeke");
+//        System.out.println(id);
+//        ResponseEntity<List<Human>> hh = new ResponseEntity<>(humanToTeamService.fetchHumansByTeamId(104l), HttpStatus.OK);
+        return new ResponseEntity<>(humanToTeamService.fetchHumansByTeamId(104l), HttpStatus.OK);
     }
 
     @GetMapping(path = "/humans/{human-id}/team",

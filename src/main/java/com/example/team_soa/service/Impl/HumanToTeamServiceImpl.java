@@ -13,6 +13,9 @@ import com.example.team_soa.service.CollectionService;
 import com.example.team_soa.service.HumanToTeamService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -20,6 +23,8 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static com.example.team_soa.utils.Utils.getPageable;
 
 @Slf4j
 @Service
@@ -128,7 +133,7 @@ public class HumanToTeamServiceImpl implements HumanToTeamService {
 
 
     @Override
-    public ArrayList<Human> fetchHumansByTeamId(Long id) {
+    public Page fetchHumansByTeamId(Long id) {
         ArrayList<HumanToTeam> humansToTeam = new ArrayList<>(humanToTeamRepository.findHumanToTeamByTeamId(id));
         ArrayList<Human> answer = new ArrayList<>();
 
@@ -144,7 +149,9 @@ public class HumanToTeamServiceImpl implements HumanToTeamService {
             }
             return false;
         });
-        return answer;
+        Pageable pageable = getPageable(0, answer.size(), "none", "none");
+
+        return new PageImpl<>(answer, pageable, answer.size());
 
     }
 
@@ -159,7 +166,8 @@ public class HumanToTeamServiceImpl implements HumanToTeamService {
 
     @Override
     public boolean makeTeamDepressiveByTeamId(Long id) throws BadRequestException {
-        ArrayList<Human> humans = fetchHumansByTeamId(id);
+        System.out.println(id);
+        Page<Human> humans = fetchHumansByTeamId(id);
         for (Human human : humans) {
             if (!(collectionService.makeDepressiveByHumanId(human.getId()).getStatusCode() == HttpStatus.OK)) {
                 throw new BadRequestException("Couldn't change all moods");

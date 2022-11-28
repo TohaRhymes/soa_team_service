@@ -6,6 +6,7 @@ import com.example.team_soa.exception.ModelException;
 import com.example.team_soa.model.Human;
 import com.example.team_soa.model.HumanToTeam;
 import com.example.team_soa.model.Team;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public interface HumanToTeamService {
 
     public boolean makeTeamDepressiveByTeamId(Long id) throws BadRequestException;
 
-    public ArrayList<Human> fetchHumansByTeamId(Long id);
+    public Page fetchHumansByTeamId(Long id);
 
     public Team fetchTeamByHumanId(Long id);
 

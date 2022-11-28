@@ -19,6 +19,10 @@ public interface TeamRepository extends CrudRepository<Team, Long>, JpaRepositor
 
     @Query("SELECT team.id, team.name " +
             "FROM Team team " +
-            "where (LOWER(team.name) like LOWER(:name))")
-    Page<Object[]> findTeamFilter(Pageable pageable, String name);
+            "where team.id >= :id_min and team.id <= :id_max " +
+            "AND (LOWER(team.name) like LOWER(:name))")
+    Page<Object[]> findTeamFilter(Pageable pageable,
+                                  Long id_min,
+                                  Long id_max,
+                                  String name);
 }

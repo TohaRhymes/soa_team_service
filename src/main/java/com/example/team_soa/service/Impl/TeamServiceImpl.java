@@ -44,10 +44,17 @@ public class TeamServiceImpl implements TeamService {
                               Integer size,
                               String sort,
                               String order,
+                              Long id,
                               String name) {
         name = checkNull(name, "");
+        Long id_min = checkNull(id, Long.MIN_VALUE);
+        Long id_max = checkNull(id, Long.MAX_VALUE);
+
         Pageable pageable = getPageable(page, size, sort, order);
-        Page<Object[]> start = teamRepository.findTeamFilter(pageable, "%" + name + "%");
+        Page<Object[]> start = teamRepository.findTeamFilter(pageable,
+                id_min,
+                id_max,
+                "%" + name + "%");
         List<Team> finish = new ArrayList<>();
         for (Object[] el : start) {
             Team new_el = new Team();

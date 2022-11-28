@@ -31,14 +31,14 @@ public class Coordinate implements Serializable {
      * EXPLICIT FROM REQUEST
      * */
     @Column(name = "x", nullable = false)
-    @Min(-10)
-    @Max(10)
+    @Min(-100)
+    @Max(100)
     @ApiModelProperty(example = "5",
             required = true)
     private Integer x;
     @Column(name = "y", nullable = false)
-    @Min(-10)
-    @Max(10)
+    @Min(-100)
+    @Max(100)
     @ApiModelProperty(example = "2",
             required = true)
     private Integer y;

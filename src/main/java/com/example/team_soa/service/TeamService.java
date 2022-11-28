@@ -13,6 +13,7 @@ public interface TeamService {
                               Integer size,
                               String sort,
                               String order,
+                              Long id,
                               String name);
 
     public Team fetchTeamById(Long id);
