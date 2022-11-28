@@ -149,7 +149,7 @@ public class HumanToTeamServiceImpl implements HumanToTeamService {
             }
             return false;
         });
-        Pageable pageable = getPageable(0, answer.size(), "none", "none");
+        Pageable pageable = getPageable(0, answer.size()>0? answer.size() : 1, "none", "none");
 
         return new PageImpl<>(answer, pageable, answer.size());
 

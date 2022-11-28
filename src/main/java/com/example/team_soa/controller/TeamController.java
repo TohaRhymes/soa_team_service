@@ -215,10 +215,10 @@ public class TeamController {
     @ApiOperation(value = "Return list of humans by team.",
             produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<Page> fetchHumansByTeamId(@ApiParam(name = "team-id", required = true) @PathVariable(name = "team-id", required = true) Long id) {
-//        System.out.println("lolokeke");
-//        System.out.println(id);
-//        ResponseEntity<List<Human>> hh = new ResponseEntity<>(humanToTeamService.fetchHumansByTeamId(104l), HttpStatus.OK);
-        return new ResponseEntity<>(humanToTeamService.fetchHumansByTeamId(104l), HttpStatus.OK);
+        System.out.println("lolokeke");
+        System.out.println(id);
+        ResponseEntity<Page> hh = new ResponseEntity<>(humanToTeamService.fetchHumansByTeamId(id), HttpStatus.OK);
+        return hh;
     }
 
     @GetMapping(path = "/humans/{human-id}/team",
